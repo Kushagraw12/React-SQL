@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 class TaskList extends React.Component {
   state = {
@@ -6,6 +7,11 @@ class TaskList extends React.Component {
   };
   onDeleteClick = () => {
     console.log("inside delete");
+  };
+  onSubmitClick = () => {
+    axios.post("http://localhost:8080/addTask", {
+      task: this.state.task,
+    });
   };
   render() {
     return (
@@ -26,7 +32,12 @@ class TaskList extends React.Component {
               <div className="meta">Friends of Veronika</div>
               <div className="extra content">
                 <div className="ui two buttons">
-                  <div className="ui basic green button">Done</div>
+                  <div
+                    className="ui basic green button"
+                    onClick={() => this.onSubmitClick()}
+                  >
+                    Submit
+                  </div>
                   <div
                     className="ui basic red button"
                     onClick={() => this.onDeleteClick()}

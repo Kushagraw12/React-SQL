@@ -8,7 +8,8 @@ app.get("/tasks", (req, res) => {
   res.send("list of all tasks");
 });
 
-app.get("/addTask", (req, res) => {
+app.post("/addTask", (req, res) => {
+  console.log(req);
   res.send("you can add task");
 });
 
