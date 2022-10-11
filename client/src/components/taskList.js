@@ -4,14 +4,31 @@ import axios from "axios";
 class TaskList extends React.Component {
   state = {
     task: "",
+    taskList: [],
   };
-  onDeleteClick = () => {
-    console.log("inside delete");
+  componentDidMount() {
+    this.getTaskList();
+  }
+  getTaskList = () => {
+    axios
+      .get("http://localhost:8080/tasks")
+      .then((resp) => resp.data)
+      .then((resp) =>
+        this.setState({
+          taskList: resp,
+        })
+      );
+  };
+  onDeleteClick = (task_id) => {
+    axios.delete(`http://localhost:8080/deleteTask/${task_id}`, {});
+    this.getTaskList();
   };
   onSubmitClick = () => {
     axios.post("http://localhost:8080/addTask", {
       task: this.state.task,
     });
+    this.getTaskList();
+    this.setState({ task: "" });
   };
   render() {
     return (
@@ -32,22 +49,24 @@ class TaskList extends React.Component {
         </button>
         <hr />
         <div className="ui cards">
-          <div className="card">
-            <div className="content">
-              <div className="meta">Friends of Veronika</div>
-              <div className="extra content">
-                <div className="ui two buttons">
-                  <div className="ui basic green button">Done</div>
-                  <div
-                    className="ui basic red button"
-                    onClick={() => this.onDeleteClick()}
-                  >
-                    Delete
+          {this.state.taskList.map((task) => (
+            <div className="card">
+              <div className="content">
+                <div className="meta">{task.task}</div>
+                <div className="extra content">
+                  <div className="ui two buttons">
+                    <div className="ui basic green button">Done</div>
+                    <div
+                      className="ui basic red button"
+                      onClick={() => this.onDeleteClick(task.task_id)}
+                    >
+                      Delete
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     );
