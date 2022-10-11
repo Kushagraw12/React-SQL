@@ -9,19 +9,33 @@ app.use(bodyParser.json());
 
 // ROUTES
 app.get("/tasks", (req, res) => {
-  res.send("list of all tasks");
+  const TASK_QUERY = "SELECT * FROM todotaskmanager.tasks";
+  connection.query(TASK_QUERY, (err, response) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(response);
+    }
+  });
 });
 
 app.post("/addTask", (req, res) => {
   const ADD_QUERY = `insert into todotaskmanager.tasks (task) value ('${req.body.task}')`;
   connection.query(ADD_QUERY, (err) => {
-    console.log(err);
+    if (err) {
+      console.log(err);
+    }
   });
-  res.send("you can add task");
+  res.send("task has beed added");
 });
 
-app.get("/deleteTask", (req, res) => {
-  res.send("deleted task");
+app.delete("/deleteTask/:task_id", (req, res) => {
+  const DELETE_QUERY = `DELETE FROM todotaskmanager.tasks WHERE (task_id = ${req.params.task_id})`;
+  connection.query(DELETE_QUERY, (err, response) => {
+    if (err) {
+      console.log(err);
+    }
+  });
 });
 
 app.listen(8080, () => {
