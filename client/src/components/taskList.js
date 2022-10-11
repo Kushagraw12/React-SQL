@@ -4,6 +4,9 @@ class TaskList extends React.Component {
   state = {
     task: "",
   };
+  onDeleteClick = () => {
+    console.log("inside delete");
+  };
   render() {
     return (
       <div>
@@ -17,14 +20,19 @@ class TaskList extends React.Component {
         </div>
         <button className="ui primary button basic">Submit</button>
         <hr />
-        <div class="ui cards">
-          <div class="card">
-            <div class="content">
-              <div class="meta">Friends of Veronika</div>
-              <div class="extra content">
-                <div class="ui two buttons">
-                  <div class="ui basic green button">Approve</div>
-                  <div class="ui basic red button">Decline</div>
+        <div className="ui cards">
+          <div className="card">
+            <div className="content">
+              <div className="meta">Friends of Veronika</div>
+              <div className="extra content">
+                <div className="ui two buttons">
+                  <div className="ui basic green button">Done</div>
+                  <div
+                    className="ui basic red button"
+                    onClick={() => this.onDeleteClick()}
+                  >
+                    Delete
+                  </div>
                 </div>
               </div>
             </div>
