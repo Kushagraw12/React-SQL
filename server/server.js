@@ -1,7 +1,11 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+const connection = require("./db");
+
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
 
 // ROUTES
 app.get("/tasks", (req, res) => {
@@ -9,7 +13,10 @@ app.get("/tasks", (req, res) => {
 });
 
 app.post("/addTask", (req, res) => {
-  console.log(req);
+  const ADD_QUERY = `insert into todotaskmanager.tasks (task) value ('${req.body.task}')`;
+  connection.query(ADD_QUERY, (err) => {
+    console.log(err);
+  });
   res.send("you can add task");
 });
 
