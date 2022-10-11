@@ -9,7 +9,7 @@ app.get("/tasks", (req, res) => {
 });
 
 app.post("/addTask", (req, res) => {
-  console.log(req);
+  console.log(req.body);
   res.send("you can add task");
 });
 
